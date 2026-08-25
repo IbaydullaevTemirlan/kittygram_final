@@ -53,7 +53,8 @@ jobs:
           ALLOWED_HOSTS: localhost,127.0.0.1
         run: |
           python backend/manage.py migrate
-          pytest backend
+          python backend/manage.py test
+
 
   frontend_tests:
     runs-on: ubuntu-latest
