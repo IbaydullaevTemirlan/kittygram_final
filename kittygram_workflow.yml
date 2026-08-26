@@ -139,3 +139,10 @@ jobs:
             docker compose -f docker-compose.production.yml up -d --force-recreate frontend
             docker compose -f docker-compose.production.yml exec -T backend python manage.py migrate
             docker compose -f docker-compose.production.yml exec -T backend python manage.py collectstatic --noinput
+
+      - name: Send Telegram message
+        if: success()
+        run: |
+          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
+            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
+            -d "text=Kittygram deploy success. Repo: $GITHUB_REPOSITORY, commit: $GITHUB_SHA"
