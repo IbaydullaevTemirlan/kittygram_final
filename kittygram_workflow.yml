@@ -142,7 +142,11 @@ jobs:
 
       - name: Send Telegram message
         if: success()
-        run: |
-          curl -s -X POST "https://api.telegram.org/bot${{ secrets.TELEGRAM_TOKEN }}/sendMessage" \
-            -d "chat_id=${{ secrets.TELEGRAM_CHAT_ID }}" \
-            -d "text=Kittygram deploy success. Repo: $GITHUB_REPOSITORY, commit: $GITHUB_SHA"
+        uses: appleboy/telegram-action@master
+        with:
+          to: ${{ secrets.TELEGRAM_CHAT_ID }}
+          token: ${{ secrets.TELEGRAM_TOKEN }}
+          message: |
+            Kittygram deploy success.
+            Repo: ${{ github.repository }}
+            Commit: ${{ github.sha }}
